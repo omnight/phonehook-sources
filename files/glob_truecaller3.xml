@@ -85,7 +85,7 @@
   </set>
   <set id="06314701422801798" name="lookup" tags="lookup">
     <set id="0615526715913624" name="telnrInt" paramoutput="true" value="${telnrInt}" decode="URLEncode" />
-    <set id="05204424521915845" name="#lookup" url="https://search5.truecaller.com/v2/search?q=${telnrInt}&amp;countryCode=SE&amp;type=6&amp;placement=CALLERID,AFTERCALL,DETAILS&amp;adId=1fdaad91-0255-4bb8-b28a-0c82ea9102ca&amp;clientId=1&amp;myNumber=${installToken}&amp;registerId=${registerID}&amp;encoding=json" requestfields="Header" requestvalue="Accept-Encoding: gzip&#xA;User-Agent: Truecaller/7.41 (Android;7.0)">
+    <set id="05204424521915845" name="#lookup" url="https://search5.truecaller.com/v2/search?q=${telnrInt}&amp;countryCode=${countryIso}&amp;type=6&amp;placement=CALLERID,AFTERCALL,DETAILS&amp;adId=1fdaad91-0255-4bb8-b28a-0c82ea9102ca&amp;clientId=1&amp;myNumber=${installToken}&amp;registerId=${registerID}&amp;encoding=json" requestfields="Header" requestvalue="Accept-Encoding: gzip&#xA;User-Agent: Truecaller/7.41 (Android;7.0)">
       <set id="009565326659176443" name="field" value="/&quot;name&quot;:&quot;([^&quot;]*)&quot;/">
         <set id="06521888575099988" name="title" value="Name" />
         <set id="08192253387289103" name="stitle" value="name" />
