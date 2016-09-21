@@ -1,0 +1,116 @@
+<robot>
+  <meta>
+    <meta>
+      <name>TrueCaller App</name>
+      <country>_ALL</country>
+      <revision>1</revision>
+      <minversion>11</minversion>
+      <description>Number lookup directory. This version uses an alternative protocol.</description>
+      <login>
+        <name>Activate</name>
+        <login_success_tag>login</login_success_tag>
+      </login>
+      <link>https://www.truecaller.com/</link>
+      <icon>http://phonehook.omnight.com/logos/TrueCaller_Logo.png</icon>
+    </meta>
+  </meta>
+  <set id="root" name="login" tags="login">
+    <set id="05723783336864181" name="ts" value=" " formatstring="function f(a) {&#xA;return parseInt(new Date().valueOf());&#xA;}" decode="Script" paramoutput="true" />
+    <set id="029177624518317247" name="#in" value="${url}">
+      <set id="07420231271220243" name="#step0" value="/^()$/">
+        <set id="023318340817255012" name="#getInstallToken" url="https://auth4.truecaller.com/v1/installToken?clientId=1&amp;tcVersion=422|7.41&amp;installationTime=${ts}" requestfields="Header" requestvalue="Accept-Encoding: gzip&#xA;User-Agent: Truecaller/7.41 (Android;7.0)">
+          <set id="026224974677407475" name="installToken" paramoutput="true" value="/&quot;installToken&quot;:&quot;([^&quot;]*)/" />
+        </set>
+        <set id="04010067701048048" name="#setFeatures" url="https://request3.truecaller.com/?scope=features&amp;os_var=android_phone&amp;myNumber=${installToken}&amp;app=initialize&amp;buildName=GOOGLE_PLAY&amp;os=Android7.0&amp;screen_height=1184&amp;clientId=1&amp;encoding=json&amp;operator=Android&amp;package=com.truecaller&amp;client=7.41&amp;handset=Unknown%20Android&amp;screen_width=720&amp;language=en&amp;imsi=310260000000000&amp;push_provider_id=1" requestfields="Header" requestvalue="Accept-Encoding: gzip&#xA;User-Agent: Truecaller/7.41 (Android;7.0)">
+          <set id="09802389033704451" name="registerID" paramoutput="true" value="/&quot;REGISTER_ID&quot;:&quot;(\d+)/" />
+        </set>
+        <set id="06513389307165192" name="result">
+          <set id="0611312172218786" name="html" value="&#xA;&lt;html&gt;&#xA;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;&quot;&gt; &#xA;&lt;head&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/jquery-2.1.0.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script&gt; $.get(&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css&quot;, function(data) { $(&quot;&lt;style&gt;&quot; + data + &quot;&lt;/style&gt;&quot;).appendTo(&quot;head&quot;); }); &lt;/script&gt;&#xA;&lt;style&gt;&#xA;input,select,button { width: 100%; }&#xA;&lt;/style&gt;&lt;/head&gt;&#xA;&lt;body&gt;&#xA;&lt;div style=&quot;padding: 30px&quot;&gt;&#xA;&lt;h3&gt;Select your country&lt;/h3&gt;&#xA;&lt;select id=&quot;country&quot;&gt;&#xA;&#x9;&#x9;&#x9;&lt;option value=&quot;af&quot; data-country-code=&quot;93&quot; &gt;&#xA;&#x9;&#x9;&#x9;&#x9;Afghanistan (+93)&#x9;&#x9;&lt;/option&gt;&#xA;&#x9;&#x9;&#x9;&lt;option value=&quot;se&quot; data-country-code=&quot;46&quot; &gt;&#xA;&#x9;&#x9;&#x9;&#x9;Sweden (+46)&#x9;&#x9;&lt;/option&gt;&#xA;&#x9;&#x9;&#x9;&lt;option value=&quot;zw&quot; data-country-code=&quot;263&quot; &gt;&#xA;&#x9;&#x9;&#x9;&#x9;Zimbabwe (+263)&#x9;&#x9;&lt;/option&gt;&#xA;&#x9;&lt;/select&gt;&#xA;&lt;br/&gt;&#xA;&lt;h3&gt;Enter your number&lt;/h3&gt;&#xA;&lt;input type=&quot;tel&quot; id=&quot;myNumber&quot; placeholder=&quot;555-123456&quot;&gt;&lt;/input&gt;&#xA;&lt;p&gt;&#xA;      &lt;button onClick=&quot;var ss = document.getElementById('country'); var s2 = ss.options[ss.selectedIndex]; location.href='data:text/json,step=1,nr='+document.getElementById('myNumber').value + ',country=' + s2.value + ',code=' + s2.getAttribute('data-country-code')&quot;&gt;Send Verification Code&lt;/button&gt;&#xA;&lt;/p&gt;&#xA;&lt;/div&gt;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;" />
+          <set id="010749168806255804" name="done_url" value="data:text/json" />
+          <set id="09885119738499515" name="next_tag" value="login" />
+          <set id="06732973036745815" name="name" value="Enter Number" />
+        </set>
+        <set id="05170012439507721" name="setting">
+          <set id="011948435873058227" name="installToken" value="${installToken}" />
+          <set id="020529917962224475" name="registerID" value="${registerID}" />
+        </set>
+      </set>
+      <set id="035941544349072085" name="#step1" value="/^data:text/json,step=1,(.*)/">
+        <set id="014330364130819118" name="phone" paramoutput="true" value="/nr=(\d+)/" />
+        <set id="09098259032513145" name="code" paramoutput="true" value="/code=(\d+)/" />
+        <set id="0320701561006252" name="country" paramoutput="true" value="/country=([^,]+)/" />
+        <set id="05001510789067156" name="#sendCode" url="https://request3.truecaller.com/?encoding=json&amp;clientId=1&amp;country_code=${code}&amp;action=get_secret_token&amp;country_code_name=${country}&amp;myNumber=${installToken}&amp;registerId=${registerID}&amp;app=user_account&amp;phone_number=${phone}" requestfields="Header" requestvalue="Accept-Encoding: gzip&#xA;User-Agent: Truecaller/7.41 (Android;7.0)" />
+        <set id="004335092257092854" name="result">
+          <set id="08320832437196888" name="html" value="&#xA;&lt;html&gt;&#xA;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;&quot;&gt; &#xA;&lt;head&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/jquery-2.1.0.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script&gt; $.get(&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css&quot;, function(data) { $(&quot;&lt;style&gt;&quot; + data + &quot;&lt;/style&gt;&quot;).appendTo(&quot;head&quot;); }); &lt;/script&gt;&#xA;&#xA;&lt;script&gt;&#xA;$(document).ready(function() {&#xA;$('.inputWrap').keyup(function(e) {&#xA;$(e.target).parents('.inputWrap').next().find('input').focus()&#xA;});&#xA;$('.inputWrap').eq(0).focus();&#xA;});&#xA;&lt;/script&gt;&#xA;&#xA;&lt;style&gt;&#xA;input.codeInput { line-height: 40px; font-size: 40px;  }&#xA;.inputWrap { display: inline-block; width: 100px; }&#xA;.inputWrapOuter { text-align: center }&#xA;&lt;/style&gt;&lt;/head&gt;&#xA;&lt;body&gt;&#xA;&lt;div style=&quot;padding: 30px&quot;&gt;&#xA;&#xA;Code has been sent to &lt;b&gt;${phone}&lt;/b&gt;. Code is valid for about 15 minutes.&#xA;&lt;div class=&quot;inputWrapOuter&quot;&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;&#xA;&lt;button onClick=&quot;location.href='data:text/json,step=2,v_code=' + $('.codeInput').toArray().map(function(o, i, arr) { return $(arr[i]).val() }).join('')&quot;&gt;Continue&lt;/button&gt;&#xA;&#xA;&#xA;&lt;/div&gt;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;" />
+          <set id="035515250745584637" name="done_url" value="data:text/json,step=2" />
+          <set id="04482563802163737" name="next_tag" value="login" />
+          <set id="032134274084872927" name="name" value="Enter Code" />
+        </set>
+        <set id="0191063108213827" name="setting">
+          <set id="07368912813053772" name="code" value="${code}" />
+          <set id="015355271955442507" name="country" value="${country}" />
+          <set id="0687359058610548" name="phone" value="${phone}" />
+        </set>
+      </set>
+      <set id="09848532931307903" name="#step2" value="/^data:text/json,step=2,(.*)/">
+        <set id="05842755998013385" name="v_code" paramoutput="true" value="/v_code=(\d+)/" />
+        <set id="05198141318140677" name="#verifyCode" url="https://request3.truecaller.com/?encoding=json&amp;clientId=1&amp;country_code=${code}&amp;secret_token=${v_code}&amp;action=verify_secret_token&amp;country_code_name=${country}&amp;myNumber=${installToken}&amp;registerId=${registerID}&amp;app=user_account&amp;phone_number=${phone}" requestfields="Header" requestvalue="Accept-Encoding: gzip&#xA;User-Agent: Truecaller/7.41 (Android;7.0)" />
+        <set id="06742655897782772" name="result">
+          <set id="047870656605488127" name="html" value="&#xA;&lt;html&gt;&#xA;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;&quot;&gt; &#xA;&lt;head&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/jquery-2.1.0.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script&gt; $.get(&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css&quot;, function(data) { $(&quot;&lt;style&gt;&quot; + data + &quot;&lt;/style&gt;&quot;).appendTo(&quot;head&quot;); }); &lt;/script&gt;&#xA;&#xA;&lt;style&gt;&#xA;input.codeInput { line-height: 40px; font-size: 40px;  }&#xA;.inputWrap { display: inline-block; width: 100px; }&#xA;.inputWrapOuter { text-align: center }&#xA;&lt;/style&gt;&#xA;&#xA;&lt;script&gt;&#xA;  $(document).ready(function() {&#xA;    $('#next').click(function() {&#xA;    location.href = 'data:text/json,step=3,fn=' + $('#ipFirstname').val() + '|ln=' + $('#ipLastname').val() + '|email=' + $('#ipEmail').val();&#xA;    });&#xA;  });&#xA;&lt;/script&gt;&#xA;&#xA;&lt;/head&gt;&#xA;&lt;body&gt;&#xA;&lt;div style=&quot;padding: 30px&quot;&gt;&#xA;&#xA;&lt;h3&gt;First name&lt;/h3&gt;&#xA;&lt;input name=&quot;firstname&quot; id=&quot;ipFirstname&quot;/&gt;&#xA;&#xA;&lt;h3&gt;Last name&lt;/h3&gt;&#xA;&lt;input name=&quot;lastname&quot; id=&quot;ipLastname&quot;/&gt;&#xA;&#xA;&lt;h3&gt;Email&lt;/h3&gt;&#xA;&lt;input type=&quot;email&quot; id=&quot;ipEmail&quot;/&gt;&#xA;&#xA;&lt;button id=&quot;next&quot;&gt;Done&lt;/button&gt;&#xA;&#xA;&lt;/div&gt;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;" />
+          <set id="04944810251769216" name="next_tag" value="login" />
+          <set id="04296413139067754" name="done_url" value="data:text/json,step=3" />
+          <set id="048352662200310403" name="name" value="Enter Details" />
+        </set>
+      </set>
+      <set id="01326436580948651" name="#step3" value="/^data:text/json,step=3,(.*)/">
+        <set id="00026330912352281466" name="fn" paramoutput="true" value="/fn=([^|]*)/" />
+        <set id="09978694133123469" name="ln" paramoutput="true" value="/ln=([^|]*)/" />
+        <set id="07969000585361037" name="email" paramoutput="true" value="/email=([^|]*)/" />
+        <set id="06453589511921627" name="postData" value="{&quot;email&quot;:&quot;${email}&quot;,&quot;avatar_enabled&quot;:&quot;0&quot;,&quot;first_name&quot;:&quot;${fn}&quot;,&quot;last_name&quot;:&quot;${ln}&quot;}" paramoutput="true" />
+        <set id="08497721398160127" name="postDataLen" paramoutput="true" value="${postData}" formatstring="function f(a) {&#xA;return a.length;&#xA;}" decode="Script" />
+        <set id="06673975709130766" name="#postDetails" url="https://request3.truecaller.com/?registerId=${registerID}&amp;clientId=1&amp;myNumber=${installToken}&amp;encoding=json&amp;app=user_account&amp;action=post_profile_data" postrequest="true" requestfields="Header" requestvalue="Content-Type: multipart/form-data; boundary=03af47fb-7b9e-4e9f-a878-ca4221d903a4&#xA;User-Agent: Truecaller/7.41 (Android;7.0)" postdata="--03af47fb-7b9e-4e9f-a878-ca4221d903a4&#xA;Content-Disposition: form-data; name=&quot;profile_data&quot;&#xA;Content-Transfer-Encoding: binary&#xA;Content-Type: application/json; charset=UTF-8&#xA;Content-Length: ${postDataLen}&#xA;&#xA;${postData}&#xA;--03af47fb-7b9e-4e9f-a878-ca4221d903a4--">
+          <set id="08872961466934672" name="result">
+            <set id="06241519747162361" name="success" paramoutput="true" value="/post_status&quot;:&quot;(.*?)&quot;/" />
+            <set id="02924973387822718" name="html" value="&#xA;&lt;html&gt;&#xA;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;&quot;&gt; &#xA;&lt;head&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/jquery-2.1.0.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script&gt; $.get(&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css&quot;, function(data) { $(&quot;&lt;style&gt;&quot; + data + &quot;&lt;/style&gt;&quot;).appendTo(&quot;head&quot;); }); &lt;/script&gt;&#xA;&#xA;&lt;/head&gt;&#xA;&lt;body&gt;&#xA;&lt;div style=&quot;padding: 30px&quot;&gt;&#xA;&lt;b&gt;&#xA;&lt;script&gt;&#xA;  if(${success}) {&#xA;    document.write('Activation success!');&#xA;  } else {&#xA;    document.write('Activation failure, please try again!');&#xA;  }&#xA;&lt;/script&gt;&#xA;&lt;/b&gt;&#xA;&lt;p&gt;&#xA;&lt;button id=&quot;next&quot; onClick=&quot;location.href='data:text/json,step=4'&quot;&gt;Close&lt;/button&gt;&#xA;&lt;/p&gt;&#xA;&#xA;&lt;/div&gt;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;" />
+            <set id="0636761572567061" name="done_url" value="data:text/json,step=4" />
+            <set id="06211665545110407" name="name" value="Result" />
+            <set id="07473568034344327" name="next_tag" value="login" />
+          </set>
+        </set>
+      </set>
+      <set id="08388068168117901" name="#step4" value="/^data:text/json,step=4()/">
+        <set id="015150881531250793" name="result">
+          <set id="004026588564410316" name="success" value="true" />
+        </set>
+      </set>
+    </set>
+  </set>
+  <set id="06314701422801798" name="lookup" tags="lookup">
+    <set id="0615526715913624" name="telnrInt" paramoutput="true" value="${telnrInt}" decode="URLEncode" />
+    <set id="05204424521915845" name="#lookup" url="https://search5.truecaller.com/v2/search?q=${telnrInt}&amp;countryCode=SE&amp;type=6&amp;placement=CALLERID,AFTERCALL,DETAILS&amp;adId=1fdaad91-0255-4bb8-b28a-0c82ea9102ca&amp;clientId=1&amp;myNumber=${installToken}&amp;registerId=${registerID}&amp;encoding=json" requestfields="Header" requestvalue="Accept-Encoding: gzip&#xA;User-Agent: Truecaller/7.41 (Android;7.0)">
+      <set id="009565326659176443" name="field" value="/&quot;name&quot;:&quot;([^&quot;]*)&quot;/">
+        <set id="06521888575099988" name="title" value="Name" />
+        <set id="08192253387289103" name="stitle" value="name" />
+        <set id="03001978050036094" name="value" value="/(.+)/" decode="JSON" />
+      </set>
+      <set id="07448953088099874" name="#addresses" value="/&quot;addresses&quot;:(\[(?:[^\[\]]|(?1))*\])/">
+        <set id="012547666064150587" name="#address" value="/(\{(?:[^\{\}]|(?1))*\})/">
+          <set id="01791713956199057" name="field" value="/address&quot;:&quot;([^&quot;]+)&quot;/">
+            <set id="06201489669207287" name="stitle" value="address" />
+            <set id="0019639632388061434" name="title" value="Address" />
+            <set id="024459518356772603" name="value" value="/(.+)/" decode="JSON" />
+          </set>
+        </set>
+      </set>
+      <set id="08431333754892116" name="#emails" value="/&quot;internetAddresses&quot;:(\[(?:[^\[\]]|(?1))*\])/">
+        <set id="03119710357844965" name="#email" value="/(\{(?:[^\{\}]|(?1))*\})/">
+          <set id="0017090270516679995" name="field" value="/&quot;id&quot;:&quot;([^&quot;]+)&quot;.*&quot;service&quot;:&quot;email&quot;/">
+            <set id="018453341382691568" name="stitle" value="email" />
+            <set id="0842382512982506" name="title" value="Email" />
+            <set id="020504767324373696" name="value" value="/(.+)/" decode="JSON" />
+          </set>
+        </set>
+      </set>
+    </set>
+  </set>
+</robot>
