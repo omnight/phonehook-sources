@@ -1,18 +1,16 @@
 <robot>
   <meta>
-    <meta>
-      <name>TrueCaller App</name>
-      <country>_ALL</country>
-      <revision>1</revision>
-      <minversion>11</minversion>
-      <description>Number lookup directory. This version uses an alternative protocol.</description>
-      <login>
-        <name>Activate</name>
-        <login_success_tag>login</login_success_tag>
-      </login>
-      <link>https://www.truecaller.com/</link>
-      <icon>http://phonehook.omnight.com/logos/TrueCaller_Logo.png</icon>
-    </meta>
+    <name>TrueCaller App</name>
+    <country>_ALL</country>
+    <revision>1</revision>
+    <minversion>11</minversion>
+    <description>Number lookup directory. This version uses an alternative protocol.</description>
+    <login>
+      <name>Activate</name>
+      <login_success_tag>login</login_success_tag>
+    </login>
+    <link>https://www.truecaller.com/</link>
+    <icon>http://phonehook.omnight.com/logos/TrueCaller_Logo.png</icon>
   </meta>
   <set id="root" name="login" tags="login">
     <set id="05723783336864181" name="ts" value=" " formatstring="function f(a) {&#xA;return parseInt(new Date().valueOf());&#xA;}" decode="Script" paramoutput="true" />
@@ -41,7 +39,7 @@
         <set id="0320701561006252" name="country" paramoutput="true" value="/country=([^,]+)/" />
         <set id="05001510789067156" name="#sendCode" url="https://request3.truecaller.com/?encoding=json&amp;clientId=1&amp;country_code=${code}&amp;action=get_secret_token&amp;country_code_name=${country}&amp;myNumber=${installToken}&amp;registerId=${registerID}&amp;app=user_account&amp;phone_number=${phone}" requestfields="Header" requestvalue="Accept-Encoding: gzip&#xA;User-Agent: Truecaller/7.41 (Android;7.0)" />
         <set id="004335092257092854" name="result">
-          <set id="08320832437196888" name="html" value="&#xA;&lt;html&gt;&#xA;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;&quot;&gt; &#xA;&lt;head&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/jquery-2.1.0.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script&gt; $.get(&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css&quot;, function(data) { $(&quot;&lt;style&gt;&quot; + data + &quot;&lt;/style&gt;&quot;).appendTo(&quot;head&quot;); }); &lt;/script&gt;&#xA;&#xA;&lt;script&gt;&#xA;$(document).ready(function() {&#xA;$('.inputWrap').keyup(function(e) {&#xA;$(e.target).parents('.inputWrap').next().find('input').focus()&#xA;});&#xA;$('.inputWrap').eq(0).focus();&#xA;});&#xA;&lt;/script&gt;&#xA;&#xA;&lt;style&gt;&#xA;input.codeInput { line-height: 40px; font-size: 40px;  }&#xA;.inputWrap { display: inline-block; width: 100px; }&#xA;.inputWrapOuter { text-align: center }&#xA;&lt;/style&gt;&lt;/head&gt;&#xA;&lt;body&gt;&#xA;&lt;div style=&quot;padding: 30px&quot;&gt;&#xA;&#xA;Code has been sent to &lt;b&gt;${phone}&lt;/b&gt;. Code is valid for about 15 minutes.&#xA;&lt;div class=&quot;inputWrapOuter&quot;&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;&#xA;&lt;button onClick=&quot;location.href='data:text/json,step=2,v_code=' + $('.codeInput').toArray().map(function(o, i, arr) { return $(arr[i]).val() }).join('')&quot;&gt;Continue&lt;/button&gt;&#xA;&#xA;&#xA;&lt;/div&gt;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;" />
+          <set id="08320832437196888" name="html" value="&#xA;&lt;html&gt;&#xA;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;&quot;&gt; &#xA;&lt;head&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/jquery-2.1.0.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script src=&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js&quot;&gt;&lt;/script&gt;&#xA;&lt;script&gt; $.get(&quot;https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css&quot;, function(data) { $(&quot;&lt;style&gt;&quot; + data + &quot;&lt;/style&gt;&quot;).appendTo(&quot;head&quot;); }); &lt;/script&gt;&#xA;&#xA;&lt;script&gt;&#xA;$(document).ready(function() {  $('.inputWrap').eq(0).focus();  });&#xA;&lt;/script&gt;&#xA;&#xA;&lt;style&gt;&#xA;input.codeInput { line-height: 40px; font-size: 40px;  }&#xA;.inputWrap { display: inline-block; width: 100px; }&#xA;.inputWrapOuter { text-align: center }&#xA;&lt;/style&gt;&lt;/head&gt;&#xA;&lt;body&gt;&#xA;&lt;div style=&quot;padding: 30px&quot;&gt;&#xA;&#xA;Code has been sent to &lt;b&gt;${phone}&lt;/b&gt;. Code is valid for about 15 minutes.&#xA;&lt;div class=&quot;inputWrapOuter&quot;&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; id=&quot;i1&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot; onFocus=&quot;this.value=''&quot; onInput=&quot;$('#i2').focus()&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; id=&quot;i2&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot; onFocus=&quot;this.value=''&quot; onInput=&quot;$('#i3').focus()&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;div class=&quot;inputWrap&quot;&gt;&#xA;&lt;input type=&quot;number&quot; id=&quot;i3&quot; class=&quot;codeInput&quot; min=&quot;0&quot; max=&quot;9&quot; onFocus=&quot;this.value=''&quot; onInput=&quot;$('#i3').blur()&quot;/&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;&#xA;&lt;button onClick=&quot;location.href='data:text/json,step=2,v_code=' + $('.codeInput').toArray().map(function(o, i, arr) { return $(arr[i]).val() }).join('')&quot;&gt;Continue&lt;/button&gt;&#xA;&#xA;&#xA;&lt;/div&gt;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;" />
           <set id="035515250745584637" name="done_url" value="data:text/json,step=2" />
           <set id="04482563802163737" name="next_tag" value="login" />
           <set id="032134274084872927" name="name" value="Enter Code" />
