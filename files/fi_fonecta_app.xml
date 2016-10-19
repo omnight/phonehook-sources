@@ -1,0 +1,101 @@
+<robot>
+  <meta>
+    <name>Fonecta App</name>
+    <country>FI</country>
+    <revision>1</revision>
+    <description>Finnish phone number directory (Login is required!)
+Uses Fonecta Caller API
+</description>
+    <icon>https://www.fonecta.fi/assets/324851a/beta/images/fonectafi/fonectafi-logo.png</icon>
+    <minversion>11</minversion>
+    <param title="Username">user</param>
+    <param title="Password" type="password">pass</param>
+    <link>http://www.fonecta.fi</link>
+  </meta>
+  <set id="root" name="lookup" tags="lookup">
+    <set id="0807273760638197" name="headers" paramoutput="true" value="X-Caller-Device: Unknown sdk_phone_armv7&#xA;X-Caller-Platform: Android/5.1&#xA;X-Caller-Language: en&#xA;X-Caller-Password: ${pass}&#xA;X-Caller-ID: 000000000000000&#xA;X-Caller-Client-Version: 4.11.5&#xA;Accept-Encoding: gzip&#xA;User-Agent: okhttp/3.3.1" />
+    <set id="02612838022453001" name="#hasToken" value="${token}">
+      <set id="024879752809539313" name="#noToken" value="/^()$/">
+        <set id="0058231248696142934" name="#login" url="https://caller.fonapi.fi/auth/login" requestfields="Header" requestvalue="${headers}&#xA;X-Caller-Username: ${user}">
+          <set id="09078906524469237" name="headers" paramoutput="true" value="/token&quot;:&quot;(.*?)&quot;.*?&quot;id&quot;:&quot;(\d+)&quot;/" decode="FormatString" formatstring="${headers}&#xA;X-Caller-Token: {0}&#xA;X-Caller-AccountId: {1}" />
+          <set id="017032081672308652" name="setting">
+            <set id="045320356367160275" name="token" value="/token&quot;:&quot;(.*?)&quot;/" />
+            <set id="09347776581071923" name="accountId" value="/&quot;id&quot;:&quot;(\d+)&quot;/" />
+          </set>
+        </set>
+      </set>
+      <set id="0884891990743272" name="#hasToken" value="/^(.+)$/">
+        <set id="0621617358773271" name="headers" paramoutput="true" value="${headers}&#xA;X-Caller-Token: ${token}&#xA;X-Caller-AccountId: ${accountId}" />
+      </set>
+    </set>
+    <set id="015942101036505174" name="#lookup" url="https://caller.fonapi.fi/contact/singlefieldSearch?invocation=automatic_incoming_call&amp;what=${telnr}&amp;limit=1" requestfields="Header" requestvalue="${headers}">
+      <set id="08450425988803265" name="#process" value="/(.+)/" formatstring="function f(a) {&#xA;var obj = JSON.parse(a);&#xA;return 'name:' + obj.search.result[0].name + &#xA;'\n\naddress:' + obj.search.result[0].address.streetAddress + &#xA;'\n\ncity:' + obj.search.result[0].homeCity + &#xA;'\n\nwebsite:' + obj.search.result[0].companyUrl +&#xA;'\n\ncategory:' + obj.search.result[0].lineofBusinessNames[0] +&#xA;'\n\n'&#xA;}" decode="Script">
+        <set id="006738987852977374" name="field" value="/name:(.*?)\n\n/">
+          <set id="035289515611714495" name="title" value="Name" />
+          <set id="07348370030063274" name="stitle" value="name" />
+          <set id="0942610255422824" name="value" value="/(.+)/" />
+        </set>
+        <set id="05827427647827974" name="field" value="/address:(.*?)\n\n/">
+          <set id="04607792845887375" name="title" value="Address" />
+          <set id="016527185111903053" name="stitle" value="address" />
+          <set id="08167686019064184" name="value" value="/(.+)/" />
+        </set>
+        <set id="029980139105413106" name="field" value="/website:(.*?)\n\n/">
+          <set id="07455759349187532" name="title" value="Website" />
+          <set id="016446504514626947" name="stitle" value="website" />
+          <set id="08866861142707818" name="value" value="/(.+)/" />
+        </set>
+        <set id="005431252091837524" name="field" value="/category:(.*?)\n\n/">
+          <set id="09891939390168925" name="title" value="Category" />
+          <set id="0010284669506345878" name="stitle" value="category" />
+          <set id="03423753609886888" name="value" value="/(.+)/" />
+        </set>
+      </set>
+    </set>
+  </set>
+  <set id="04557607316771364" name="search" tags="business_search,person_search">
+    <set id="08830202993821163" name="headers" paramoutput="true" value="X-Caller-Device: Unknown sdk_phone_armv7&#xA;X-Caller-Platform: Android/5.1&#xA;X-Caller-Language: en&#xA;X-Caller-Password: ${pass}&#xA;X-Caller-ID: 000000000000000&#xA;X-Caller-Client-Version: 4.11.5&#xA;Accept-Encoding: gzip&#xA;User-Agent: okhttp/3.3.1" />
+    <set id="0660358577684607" name="#hasToken" value="${token}">
+      <set id="034166271238125057" name="#noToken" value="/^()$/">
+        <set id="09375188677953261" name="#login" url="https://caller.fonapi.fi/auth/login" requestfields="Header" requestvalue="${headers}&#xA;X-Caller-Username: ${user}">
+          <set id="020037968395310513" name="headers" paramoutput="true" value="/token&quot;:&quot;(.*?)&quot;.*?&quot;id&quot;:&quot;(\d+)&quot;/" decode="FormatString" formatstring="${headers}&#xA;X-Caller-Token: {0}&#xA;X-Caller-AccountId: {1}" />
+          <set id="03739545294648521" name="setting">
+            <set id="05619267626861666" name="token" value="/token&quot;:&quot;(.*?)&quot;/" />
+            <set id="09719532833555851" name="accountId" value="/&quot;id&quot;:&quot;(\d+)&quot;/" />
+          </set>
+        </set>
+      </set>
+      <set id="034053290682849213" name="#hasToken" value="/^(.+)$/">
+        <set id="02453877932306403" name="headers" paramoutput="true" value="${headers}&#xA;X-Caller-Token: ${token}&#xA;X-Caller-AccountId: ${accountId}" />
+      </set>
+    </set>
+    <set id="038749680303687617" name="#searchType" value="${tagWanted}">
+      <set id="06366962143757195" name="searchType" paramoutput="true" value="/business_search&#xA;person_search/" decode="RegexMultiReplace" formatstring="&amp;facets=contactType_COMPANY_ALL&#xA;&amp;facets=contactType_PERSON" />
+    </set>
+    <set id="08287103943259482" name="searchF" paramoutput="true" value="${searchName} ${searchArea}" decode="URLEncode" />
+    <set id="06598167294869377" name="#pageEmpty" value="${page}">
+      <set id="05209663513133462" name="page" paramoutput="true" value="/^()$/" decode="FormatString" formatstring="1" />
+    </set>
+    <set id="0020674021231564366" name="#makeSearch" url="https://caller.fonapi.fi/contact/singlefieldSearch?invocation=manual${searchType}&amp;page=${page}&amp;what=${searchF}" requestfields="Header" requestvalue="${headers}">
+      <set id="007375113439768555" name="result" value="/&quot;hideReason&quot;:&quot;([^&quot;]+)/">
+        <set id="049589936791800904" name="name" value="/(.+)/" decode="FormatString" formatstring="Error: {0}" />
+      </set>
+      <set id="02208935701039052" name="#result" value="/&quot;result&quot;:(\[(?:[^\[\]]|(?1))*\])/">
+        <set id="06333159476222618" name="result" value="/(\{(?:[^\{\}]|(?1))*\})/">
+          <set id="06020287828533861" name="name" value="/&quot;name&quot;:&quot;([^&quot;]+)&quot;/" resultrange="0" decode="JSON" />
+          <set id="08072041055110457" name="phone" value="/&quot;mobile&quot;:&quot;(\d+)&quot;/" />
+          <set id="07334017800253463" name="url" value="/&quot;id&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="https://www.fonecta.fi/profiili/{0}/" />
+          <set id="07312059203367427" name="#type" value="/&quot;contactType&quot;:&quot;(.*?)&quot;/">
+            <set id="06665030458433054" name="type" value="/PERSON&#xA;COMPANY/" decode="RegexMultiReplace" formatstring="person&#xA;business" />
+          </set>
+          <set id="09799321940659138" name="#address" value="/&quot;streetAddress&quot;:&quot;(.*?)&quot;.*?&quot;postOffice&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="{0}, {1}">
+            <set id="08756419946008" name="address" value="/(.+)/" decode="JSON" />
+          </set>
+        </set>
+      </set>
+      <set id="05622981285249655" name="next" value="/(&quot;hasNextPage&quot;:true)/">
+        <set id="00012372201675170391" name="page" input="0020674021231564366" value="/&quot;page&quot;:(\d+)/" decode="Script" formatstring="function f(a) {&#xA;return parseInt(a)+1;&#xA;}" />
+      </set>
+    </set>
+  </set>
+</robot>
