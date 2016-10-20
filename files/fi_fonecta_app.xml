@@ -6,7 +6,7 @@
     <description>Finnish phone number directory (Login is required!)
 Uses Fonecta Caller API
 </description>
-    <icon>https://www.fonecta.fi/assets/324851a/beta/images/fonectafi/fonectafi-logo.png</icon>
+    <icon>https://d8h27luzpddqp.cloudfront.net/images/fonectafi/fonectafi-logo-ad659e0b57.png</icon>
     <minversion>11</minversion>
     <param title="Username">user</param>
     <param title="Password" type="password">pass</param>
@@ -83,7 +83,7 @@ Uses Fonecta Caller API
       <set id="02208935701039052" name="#result" value="/&quot;result&quot;:(\[(?:[^\[\]]|(?1))*\])/">
         <set id="06333159476222618" name="result" value="/(\{(?:[^\{\}]|(?1))*\})/">
           <set id="06020287828533861" name="name" value="/&quot;name&quot;:&quot;([^&quot;]+)&quot;/" resultrange="0" decode="JSON" />
-          <set id="08072041055110457" name="phone" value="/&quot;mobile&quot;:&quot;(\d+)&quot;/" />
+          <set id="08072041055110457" name="number" value="/&quot;mobile&quot;:&quot;(\d+)&quot;/" />
           <set id="07334017800253463" name="url" value="/&quot;id&quot;:&quot;(.*?)&quot;/" decode="FormatString" formatstring="https://www.fonecta.fi/profiili/{0}/" />
           <set id="07312059203367427" name="#type" value="/&quot;contactType&quot;:&quot;(.*?)&quot;/">
             <set id="06665030458433054" name="type" value="/PERSON&#xA;COMPANY/" decode="RegexMultiReplace" formatstring="person&#xA;business" />
